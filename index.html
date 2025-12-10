@@ -126,7 +126,6 @@
       box-shadow: 0 6px 20px rgba(236, 72, 153, 0.3);
     }
 
-    /* Footer */
     footer {
       text-align: center;
       padding: 20px;
@@ -142,20 +141,17 @@
 </head>
 <body>
 
-  <!-- Falling Flowers Background -->
   <div id="flowers-container"></div>
 
   <div class="section">
-    <h1 class="title">Hi! Take a Little Break Here My Fav Girl 🤍</h1>
+    <h1 class="title">Hi! Take a Little Break Here My Fav Girl Neva Kaimah🤍</h1>
   
-    <!-- Daily Message Generator -->
     <div class="daily-box">
       <h2>Pesan buat yang ga pantang menyerah ✨</h2>
       <p id="daily-message">Klik tombol hadiah biar nanti dapet hadiah</p>
       <button class="btn-primary" onclick="generateMessage()">Mana hadiahnya</button>
     </div>
 
-    <!-- Mini Game: Click the Star -->
     <div class="game-box">
       <h2>Game Biar Kamu Ga stress sama Integral ⭐</h2>
       <p>Tangkap bintangnya, semogaa beruntung hehehe 💫</p>
@@ -166,7 +162,6 @@
       <p id="star-msg" style="margin-top:12px; font-weight:600;"></p>
     </div>
 
-    <!-- Care Package -->
     <div class="section">
       <h2 class="title">Misi Kakak Ada Paket 🎁</h2>
       <div class="care-grid">
@@ -178,7 +173,6 @@
       <p id="care-msg" style="text-align:center; margin-top:15px; font-weight:600;"></p>
     </div>
 
-    <!-- Spotify Embed -->
     <div class="section" style="text-align:center;">
       <h2>Eh kak ada salam dari stephanie 🎧</h2>
       <p>Semoga kamu nyaman katanya.</p>
@@ -187,24 +181,17 @@
 
   </div>
 
-<footer>
+  <footer>
     Made by someone who wishes you do well on your UAS ✨
-    <br><br>
-    <!-- Visitor Counter -->
-    <span style="font-size: 0.9rem;">
-      Sudah dikunjungi: <span id="counter" style="font-weight:600;"></span> kali
-    </span>
+
+    <!-- ⭐ Visitor Counter (tidak mengubah teks apapun) -->
+    <div style="margin-top:10px;">
+      <img src="https://hits.sh/dimzrzky.github.io/Repository_ITERA.svg?style=for-the-badge&label=Visitors&color=pink" />
+    </div>
+
   </footer>
 
   <script>
-    // Visitor Counter
-    fetch('https://api.countapi.xyz/hit/ucapansemangat/visits')
-      .then(res => res.json())
-      .then(data => {
-        document.getElementById("counter").innerText = data.value;
-      });
-
-    // Falling Flowers Animation
     const flowerEmojis = ['🌸', '🌺', '🌷', '🌹', '💐', '🏵️', '🌼'];
     const flowersContainer = document.getElementById('flowers-container');
 
@@ -217,10 +204,13 @@
       flower.style.animationDelay = Math.random() * 2 + 's';
       flowersContainer.appendChild(flower);
 
-      setTimeout(() => flower.remove(), 10000);
+      setTimeout(() => {
+        flower.remove();
+      }, 10000);
     }
 
     setInterval(createFlower, 800);
+
     for (let i = 0; i < 5; i++) {
       setTimeout(createFlower, i * 300);
     }
@@ -268,14 +258,13 @@
         activeStars++;
 
         star.onclick = () => {
-          document.getElementById("star-msg").innerText =
-            starMessages[Math.floor(Math.random() * starMessages.length)];
-          star.remove();
+          document.getElementById("star-msg").innerText = starMessages[Math.floor(Math.random() * starMessages.length)];
+          if (star.parentNode) star.parentNode.removeChild(star);
           activeStars = Math.max(0, activeStars - 1);
         };
 
         setTimeout(() => {
-          star.remove();
+          if (star.parentNode) star.parentNode.removeChild(star);
           activeStars = Math.max(0, activeStars - 1);
         }, 3000);
       }, 800);
@@ -289,8 +278,10 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('start-game').addEventListener('click', spawnStar);
-      document.getElementById('stop-game').addEventListener('click', stopSpawn);
+      const startBtn = document.getElementById('start-game');
+      const stopBtn = document.getElementById('stop-game');
+      startBtn.addEventListener('click', spawnStar);
+      stopBtn.addEventListener('click', stopSpawn);
     });
 
     function showCare(msg) {
