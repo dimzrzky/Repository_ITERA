@@ -187,109 +187,117 @@
 
   </div>
 
-  <footer>
+ <footer>
     Made by someone who wishes you do well on your UAS ✨
-  </footer>
+    <br><br>
+    <!-- Visitor Counter -->
+    <span style="font-size: 0.9rem;">
+      Sudah dikunjungi: <span id="counter" style="font-weight:600;"></span> kali
+    </span>
+</footer>
 
-  <script>
-    // Falling Flowers Animation
-    const flowerEmojis = ['🌸', '🌺', '🌷', '🌹', '💐', '🏵️', '🌼'];
-    const flowersContainer = document.getElementById('flowers-container');
+<script>
+  // Visitor Counter (CountAPI)
+  fetch('https://api.countapi.xyz/hit/ucapansemangat/visits')
+  .then(response => response.json())
+  .then(data => {
+    document.getElementById("counter").innerText = data.value;
+  });
 
-    function createFlower() {
-      const flower = document.createElement('div');
-      flower.className = 'flower';
-      flower.innerText = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
-      flower.style.left = Math.random() * 100 + '%';
-      flower.style.animationDuration = (Math.random() * 3 + 5) + 's';
-      flower.style.animationDelay = Math.random() * 2 + 's';
-      flowersContainer.appendChild(flower);
+  // Falling Flowers Animation
+  const flowerEmojis = ['🌸', '🌺', '🌷', '🌹', '💐', '🏵️', '🌼'];
+  const flowersContainer = document.getElementById('flowers-container');
+
+  function createFlower() {
+    const flower = document.createElement('div');
+    flower.className = 'flower';
+    flower.innerText = flowerEmojis[Math.floor(Math.random() * flowerEmojis.length)];
+    flower.style.left = Math.random() * 100 + '%';
+    flower.style.animationDuration = (Math.random() * 3 + 5) + 's';
+    flower.style.animationDelay = Math.random() * 2 + 's';
+    flowersContainer.appendChild(flower);
+
+    setTimeout(() => flower.remove(), 10000);
+  }
+
+  setInterval(createFlower, 800);
+  for (let i = 0; i < 5; i++) {
+    setTimeout(createFlower, i * 300);
+  }
+
+  const messages = [
+    "UAS 2 hari lagi, yakali anak rajin kaya gini ga bisa ✨",
+    "Ga papa kok istirahat bentar, abis itu belajar lagi ya cantik.",
+    "Aku tau kamu cape, tapi usaha ga akan kecewain kamu kok.",
+    "Tidur bentar juga bagian dari proses kok, JANGAN LUPAAA ISTIRAHAT YA!!.",
+    "Makasih udah jadi nevaa yang kuat kaya gini, I'm proud of U",
+    "Gausah takutt backing-an kita kan Allah SWT dan keberkahan-Nya"
+  ];
+
+  function generateMessage() {
+    const random = messages[Math.floor(Math.random() * messages.length)];
+    document.getElementById("daily-message").innerText = random;
+  }
+
+  const starMessages = [
+    "Bintang emang ada di langit, tapi kamu kok lebih bersinar dari bintang yaa ✨",
+    "Eh ada anak pinter yang ga menyerah 🌟",
+    "Kamu ga sendirian kok. Orang tua, temen-temen, dan aku bangga sama kamu 💫",
+    "Kalo tidur nanti jangan lupa berdoa yaa.. 🌙"
+  ];
+
+  let gameInterval = null;
+  let activeStars = 0;
+  const MAX_STARS = 20;
+
+  function spawnStar() {
+    if (gameInterval) clearInterval(gameInterval);
+
+    gameInterval = setInterval(() => {
+      if (activeStars >= MAX_STARS) return;
+
+      const star = document.createElement("div");
+      star.className = "star";
+      star.innerText = "⭐";
+
+      const left = Math.random() * (window.innerWidth - 40);
+      star.style.left = left + "px";
+      star.style.top = "-40px";
+
+      document.body.appendChild(star);
+      activeStars++;
+
+      star.onclick = () => {
+        document.getElementById("star-msg").innerText =
+          starMessages[Math.floor(Math.random() * starMessages.length)];
+        star.remove();
+        activeStars = Math.max(0, activeStars - 1);
+      };
 
       setTimeout(() => {
-        flower.remove();
-      }, 10000);
+        star.remove();
+        activeStars = Math.max(0, activeStars - 1);
+      }, 3000);
+    }, 800);
+  }
+
+  function stopSpawn() {
+    if (gameInterval) {
+      clearInterval(gameInterval);
+      gameInterval = null;
     }
+  }
 
-    // Create flowers periodically
-    setInterval(createFlower, 800);
-    // Initial flowers
-    for (let i = 0; i < 5; i++) {
-      setTimeout(createFlower, i * 300);
-    }
+  document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('start-game').addEventListener('click', spawnStar);
+    document.getElementById('stop-game').addEventListener('click', stopSpawn);
+  });
 
-    const messages = [
-      "UAS 2 hari lagi, yakali anak rajin kaya gini ga bisa ✨",
-      "Ga papa kok istirahat bentar, abis itu belajar lagi ya cantik.",
-      "Aku tau kamu cape, tapi usaha ga akan kecewain kamu kok.",
-      "Tidur bentar juga bagian dari proses kok, JANGAN LUPAAA ISTIRAHAT YA!!.",
-      "Makasih udah jadi nevaa yang kuat kaya gini, I'm proud of U",
-      "Gausah takutt backing-an kita kan Allah SWT dan keberkahan-Nya"
-    ];
-
-    function generateMessage() {
-      const random = messages[Math.floor(Math.random() * messages.length)];
-      document.getElementById("daily-message").innerText = random;
-    }
-
-    const starMessages = [
-      "Bintang emang ada di langit, tapi kamu kok lebih bersinar dari bintang yaa ✨",
-      "Eh ada anak pinter yang ga menyerah 🌟",
-      "Kamu ga sendirian kok. Orang tua, temen-temen, dan aku bangga sama kamu 💫",
-      "Kalo tidur nanti jangan lupa berdoa yaa.. 🌙"
-    ];
-
-    let gameInterval = null;
-    let activeStars = 0;
-    const MAX_STARS = 20;
-
-    function spawnStar() {
-      if (gameInterval) clearInterval(gameInterval);
-
-      gameInterval = setInterval(() => {
-        if (activeStars >= MAX_STARS) return;
-
-        const star = document.createElement("div");
-        star.className = "star";
-        star.innerText = "⭐";
-
-        const left = Math.random() * (window.innerWidth - 40);
-        star.style.left = left + "px";
-        star.style.top = "-40px";
-
-        document.body.appendChild(star);
-        activeStars++;
-
-        star.onclick = () => {
-          document.getElementById("star-msg").innerText = starMessages[Math.floor(Math.random() * starMessages.length)];
-          if (star.parentNode) star.parentNode.removeChild(star);
-          activeStars = Math.max(0, activeStars - 1);
-        };
-
-        setTimeout(() => {
-          if (star.parentNode) star.parentNode.removeChild(star);
-          activeStars = Math.max(0, activeStars - 1);
-        }, 3000);
-      }, 800);
-    }
-
-    function stopSpawn() {
-      if (gameInterval) {
-        clearInterval(gameInterval);
-        gameInterval = null;
-      }
-    }
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const startBtn = document.getElementById('start-game');
-      const stopBtn = document.getElementById('stop-game');
-      startBtn.addEventListener('click', spawnStar);
-      stopBtn.addEventListener('click', stopSpawn);
-    });
-
-    function showCare(msg) {
-      document.getElementById("care-msg").innerText = msg;
-    }
-  </script>
+  function showCare(msg) {
+    document.getElementById("care-msg").innerText = msg;
+  }
+</script>
 
 </body>
+
 </html>
